@@ -1,0 +1,67 @@
+{
+    "authServer": {
+        "POST": {
+            "login": {
+                "request": {
+                    "email": "",
+                    "password": ""
+                },
+                "return": {
+                    "userID": "",
+                    "name":"",
+                    "email": "",
+                    "accessToken": "",
+                    "refreshToken": ""
+                }
+            },
+            "token": {
+                "request": {
+                    "token": "refreshToken"
+                },
+                "return": {
+                    "accessToken": ""
+                }
+            }
+        },
+
+        
+        "DELETE": {
+            "logout": {
+                "request": {
+                    "token": ""
+                },
+                "return": {}
+            }
+        }
+    },
+
+
+
+    "normal Server": {
+        "createUser": {
+            "request": {
+                "name": "",
+                "email": "",
+                "password": ""
+            },
+            "return" : {
+                "message": "",
+                "userID": "",
+                "name": "",
+                "email": ""
+            }
+        },
+    
+        "verifyEmail/" : {
+            "request": {
+                "userID": "",
+                "code": "",
+                "email": ""
+            },
+            "response": {
+                "success": "",
+                "email": ""
+            }
+        }
+    }
+}

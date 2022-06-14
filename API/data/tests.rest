@@ -1,0 +1,113 @@
+###
+POST http://mtserver.eu:8080/createUser HTTP/1.1
+content-type: application/json
+
+{
+    "email": "testEmail",
+    "password": "TestPW",
+    "name": "TestUser"
+}
+
+###
+POST http://mtserver.eu:8081/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "testEmail",
+    "password": "TestPW"
+}
+
+###
+POST http://mtserver.eu:8081/token HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NDU4NjI3fQ.YDH7FOSpMyic167Hgp1xNNMtqZluXkuaDMOZs2LhCAU"
+}
+
+###
+POST http://mtserver.eu:8080/addShot HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NTAyMjI0LCJleHAiOjE2NTQ1MjM4MjR9.FVwlZClKJSf5c0IG6uW2vyvOfdpSPeeQXkZ9MeNuCcU
+content-type: application/json
+
+{
+    "score": "8",
+    "distance": "20m",
+    "list": "1",
+    "x": "20",
+    "y": "20"
+}
+
+###
+DELETE http://mtserver.eu:8080/deleteShot HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NTAxODY3LCJleHAiOjE2NTQ1MjM0Njd9.KnA-fUb-KDD9pZ0hZQjTrjqsMMAnGsMhfTJiftE7bUw
+content-type: application/json
+
+{
+    "shotID": "3"
+}
+
+###
+POST http://mtserver.eu:8080/addList HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NTAxODY3LCJleHAiOjE2NTQ1MjM0Njd9.KnA-fUb-KDD9pZ0hZQjTrjqsMMAnGsMhfTJiftE7bUw
+content-type: application/json
+
+{
+    "distance": "20m"
+}
+
+###
+DELETE http://mtserver.eu:8080/deleteList HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NTAxODY3LCJleHAiOjE2NTQ1MjM0Njd9.KnA-fUb-KDD9pZ0hZQjTrjqsMMAnGsMhfTJiftE7bUw
+content-type: application/json
+
+{
+    "listID": "4"
+}
+
+###
+PUT http://mtserver.eu:8080/addShotToList HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NTAxODY3LCJleHAiOjE2NTQ1MjM0Njd9.KnA-fUb-KDD9pZ0hZQjTrjqsMMAnGsMhfTJiftE7bUw
+content-type: application/json
+
+{
+    "shotID": "2",
+    "listID": "2"
+}
+
+###
+POST http://mtserver.eu:8080/addPart HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NjE0MTAzLCJleHAiOjE2NTQ2MzU3MDN9.YrQIrKUUu57nMNp-xWLO-25kgih6mEz2P1IYjnsJUvs
+content-type: application/json
+
+{
+    "name": "testPart2"
+}
+
+###
+DELETE http://mtserver.eu:8080/deletePart HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NjE0MTAzLCJleHAiOjE2NTQ2MzU3MDN9.YrQIrKUUu57nMNp-xWLO-25kgih6mEz2P1IYjnsJUvs
+content-type: application/json
+
+{
+    "partID": "2"
+}
+
+###
+PUT http://mtserver.eu:8080/resetPart HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NjE0MTAzLCJleHAiOjE2NTQ2MzU3MDN9.YrQIrKUUu57nMNp-xWLO-25kgih6mEz2P1IYjnsJUvs
+content-type: application/json
+
+{
+    "partID": "2"
+}
+
+###
+PUT http://mtserver.eu:8080/addShotsToPart HTTP/1.1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsIm5hbWUiOiJUZXN0VXNlciIsImVtYWlsIjoidGVzdEVtYWlsIiwiaWF0IjoxNjU0NjE0MTAzLCJleHAiOjE2NTQ2MzU3MDN9.YrQIrKUUu57nMNp-xWLO-25kgih6mEz2P1IYjnsJUvs
+content-type: application/json
+
+{
+    "partID": "2",
+    "amount": 20
+}

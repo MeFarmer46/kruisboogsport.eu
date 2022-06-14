@@ -1,0 +1,100 @@
+@bgColor: #ddd;
+
+@color1: #5E0B15;
+@color2: #E15F6E;
+@color3: #5C272D;
+@color4: #A81425;
+
+@textColor: #000;
+@textColorLight: #ccc;
+
+@dark1: #333;
+
+.homePage {
+    display: flex;
+    // justify-content: space-around;
+    width: 100%;
+    .left {
+        width: 75%;
+    }
+    .right {
+        padding-top: 0;
+        margin-top: 0;
+        width: 25%;
+        margin-left: 2%;
+        .agendaAction {
+            padding-top: 0;
+            margin-top: 0;
+            margin-bottom: 1%;
+            border-bottom: 1px dashed @color2;
+            .red {
+                color: @color2;
+            }
+            p {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .title {
+                font-weight: bold;
+                padding-top: 0;
+                margin-top: 0;
+            }
+        }
+        .agenda {
+            margin: 0;
+            margin-bottom: 1%;
+            font-weight: bolder;
+            border-bottom: 1px dashed @color2;
+        }
+
+        .blockOne {
+            margin-bottom: 5%;
+        }
+        .blockTwo {
+            a {
+                font-size: large;
+                font-weight: bold;
+                margin: 1%;
+                text-decoration: none;
+                color:@color4;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.contentBlock {
+    // width: 45%;
+    margin: auto;
+    margin-bottom: 1%;
+    background-color: white;
+    border: 1px solid @dark1;
+    box-shadow: -1px 1px 2px @dark1;
+    hr {
+        border: 1px solid @dark1;
+        margin: 0;
+    }
+    h1 {
+        padding: 1%;
+        background-color: @color1;
+        color: @textColorLight;
+        margin: 0;
+    }
+    p {
+        margin:1%;
+        font-size: large;
+        font-weight: 500;
+        color: #333;
+    }
+    .imgDiv {
+        display: flex;
+        img {
+            margin:1%;
+            margin-right: 0;
+            width: 30vh;
+            box-shadow: 1px 1px 1px;
+        }
+    }
+}
