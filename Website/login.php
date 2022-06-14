@@ -11,7 +11,7 @@
     <link rel="stylesheet/less" type="text/css" href="styles/main.less" />
     <link rel="stylesheet/less" type="text/css" href="styles/forms.less" />
     <script src="https://cdn.jsdelivr.net/npm/less@4" ></script>
-    <script src="js/login.js" defer></script>
+    <script src="js/fetch.js" defer></script>
 </head>
 
 <body>
@@ -22,12 +22,12 @@
             <h1>Inloggen</h1>
             <form method="post">
               <div class="txt_field">
-                <input type="text" required>
+                <input type="text" id="username" required>
                 <span></span>
                 <label>Gebruikersnaam</label>
               </div>
               <div class="txt_field">
-                <input type="password" required>
+                <input type="password" id="password" required>
                 <span></span>
                 <label>Wachtwoord</label>
               </div>

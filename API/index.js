@@ -2,6 +2,9 @@ require('dotenv').config();
 const fs = require('fs');
 const https = require('https');
 
+//Setting variables
+const expireTime = '6h';
+
 // Json web token
 const jwt = require('jsonwebtoken');
 
@@ -106,10 +109,8 @@ const app = express();
 const PORT = 8080;
 
 const cors = require('cors');
-// app.use(express.json());
-app.use(cors());
+app.use(express.json());
 
-// app.use(cors());
 app.listen(
     PORT,
     () => { logActivity(`Server running on ${PORT}`); }
@@ -117,12 +118,15 @@ app.listen(
 
 // api requests for userdata
 
-app.get('/test/', cors(), (req, res) => {
-    res.status(200);
+app.get('/api/test/', (req, res) => {
     console.log('Het werkt...');
+
+    res.send({
+        message: `Het werkt!`,
+    });
 });
 
-app.post('/createUser/', cors(), (req, res) => {
+app.post('/api/createUser/', cors(), (req, res) => {
     const {name, email, password} = req.body;
     
     if (!name) {
@@ -168,7 +172,7 @@ app.post('/createUser/', cors(), (req, res) => {
       });
 });
 
-app.put('/verifyEmail/', (req, res) => {
+app.put('/api/verifyEmail/', (req, res) => {
     const {userID, email, code} = req.body;
     
     connection.query({
@@ -203,11 +207,11 @@ app.put('/verifyEmail/', (req, res) => {
 });
 
 //Momenteel nog niet nodig
-// app.post('/alterUserData/:id', (req, res) => {
+// app.post('/api/alterUserData/:id', (req, res) => {
 
 // });
 
-// app.post('/deleteUser/:id', (req, res) => {
+// app.post('/api/deleteUser/:id', (req, res) => {
 
 // });
 
@@ -218,7 +222,7 @@ app.put('/verifyEmail/', (req, res) => {
 /**
  * Add shot should add a shot to all registered parts
  */
-app.post('/addShot/', authenticateToken, (req, res) => {
+app.post('/api/addShot/', authenticateToken, (req, res) => {
     const {score, distance, list, x, y} = req.body;
     const date = fullDate();
 
@@ -241,7 +245,7 @@ app.post('/addShot/', authenticateToken, (req, res) => {
     res.status(200);
 });
 
-app.delete('/deleteShot/', authenticateToken, (req, res) => {
+app.delete('/api/deleteShot/', authenticateToken, (req, res) => {
     const {shotID} = req.body;
     let userID;
 
@@ -261,7 +265,7 @@ app.delete('/deleteShot/', authenticateToken, (req, res) => {
 
 
 //api requests for lists
-app.post('/addList/', authenticateToken, (req, res) => {
+app.post('/api/addList/', authenticateToken, (req, res) => {
     const {distance} = req.body;
     let userID;
     jwt.verify(req.headers['authorization'], process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -280,7 +284,7 @@ app.post('/addList/', authenticateToken, (req, res) => {
     logActivity('Gebruiker heeft geprobeerd een nieuwe lijst/ronde te maken.', 'l');
 });
 
-app.delete('/deleteList/', authenticateToken, (req, res) => {
+app.delete('/api/deleteList/', authenticateToken, (req, res) => {
     const {listID} = req.body;
     let userID;
     jwt.verify(req.headers['authorization'], process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -298,7 +302,7 @@ app.delete('/deleteList/', authenticateToken, (req, res) => {
     logActivity('Gebruiker heeft geprobeerd een lijst te verwijderen.', 'l');
 });
 
-app.put('/addShotToList/', authenticateToken, (req, res) => {
+app.put('/api/addShotToList/', authenticateToken, (req, res) => {
     const {shotID, listID} = req.body;
     let userID;
     jwt.verify(req.headers['authorization'], process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -318,7 +322,7 @@ app.put('/addShotToList/', authenticateToken, (req, res) => {
 
 
 // api requests for parts
-app.post('/addPart/', authenticateToken, (req, res) => {
+app.post('/api/addPart/', authenticateToken, (req, res) => {
     const {name} = req.body;
 
     let userID;
@@ -337,7 +341,7 @@ app.post('/addPart/', authenticateToken, (req, res) => {
     logActivity('Gebruiker heeft geprobeerd een nieuw onderdeel aan te maken.', 'p');
 });
 
-app.put('/addShotsToPart/', authenticateToken, (req, res) => {
+app.put('/api/addShotsToPart/', authenticateToken, (req, res) => {
     const {partID, amount} = req.body;
 
     let userID;
@@ -364,7 +368,7 @@ app.put('/addShotsToPart/', authenticateToken, (req, res) => {
     logActivity('Gebruiker heeft geprobeerd schoten toe te voegen aan de onderdelen.', 'p');
 });
 
-app.delete('/deletePart/', authenticateToken, (req, res) => {
+app.delete('/api/deletePart/', authenticateToken, (req, res) => {
     const {partID} = req.body;
 
     let userID;
@@ -382,7 +386,7 @@ app.delete('/deletePart/', authenticateToken, (req, res) => {
     logActivity('Gebruiker heeft geprobeerd een onderdeel te verwijderen.', 'p');
 });
 
-app.put('/resetPart/', authenticateToken, (req, res) => {
+app.put('/api/resetPart/', authenticateToken, (req, res) => {
     const {partID} = req.body;
 
     let userID;
@@ -399,3 +403,103 @@ app.put('/resetPart/', authenticateToken, (req, res) => {
 
     logActivity('Gebruiker heeft geprobeerd een onderdeel te resetten.', 'p');
 });
+
+
+
+
+// Auth server parts!
+app.post('/api/token', (req, res) => {
+  const refreshToken = req.body.token;
+  if (refreshToken == null) return res.sendStatus(401);
+
+  connection.query({
+    sql: 'SELECT count(*) AS count FROM `refreshTokens` WHERE `code`=?',
+    timeout: 10000,
+    values: [refreshToken]
+    }, function(error, results, fields) {
+        if (results[0].count != 1) {
+            res.sendStatus(403);
+        }
+    });
+
+//   if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
+
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    const accessToken = generateAccessToken({ userID: user.userID, name: user.name, email: user.email });
+    res.json({ accessToken: accessToken });
+    });
+
+    logActivity('New access token was created.');
+})
+
+app.delete('/api/logout', (req, res) => {
+//   refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+
+  connection.query({
+    sql: 'DELETE FROM `refreshTokens` WHERE code=?',
+    timeout: 10000,
+    values: [req.body.token]
+    });
+  res.sendStatus(204);
+
+  logActivity('User logged out.');
+});
+
+app.post('/api/login', (req, res) => {
+    const {email, password} = req.body;
+    
+    if (!email) {
+        res.status(418).send({message: 'Vul een email adres in.'});
+        return;
+    }
+    else if (!password) {
+        res.status(418).send({message: 'Vul een wachtwoord in.'});
+        return;
+    }
+
+    connection.query({
+        sql: 'SELECT * FROM `user` WHERE `email`=?',
+        timeout: 10000,
+        values: [email]
+    }, function (error, results, fields) {
+        if (error) throw error;
+        // logActivity('Gebruiker heeft geprobeerd in te loggen.', 'u');
+        
+        if (results[0] ==  undefined || password != results[0].password) {
+            res.status(418).send({
+                success: false,
+                message: "Wachtwoord of email klopt niet."
+            });
+            return;
+        }
+        else {
+            
+
+            const user = { userID: results[0].userID, name: results[0].name, email: results[0].email };
+
+            const accessToken = generateAccessToken(user);
+            const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+            connection.query({
+                sql: 'INSERT INTO `refreshTokens` (`code`) VALUES (?)',
+                timeout: 10000,
+                values: [refreshToken]
+            });
+            res.send({
+                userID: results[0].userID,
+                name: results[0].name,
+                email: results[0].email,
+                accessToken: accessToken,
+                refreshToken: refreshToken
+            });
+            return;
+        }
+    });
+
+    logActivity('User created refresh token. (Logged in.)');
+});
+
+function generateAccessToken(user) {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expireTime })
+}

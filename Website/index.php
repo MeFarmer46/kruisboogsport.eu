@@ -12,7 +12,6 @@
     <link rel="stylesheet/less" type="text/css" href="styles/home.less" />
     <script src="https://cdn.jsdelivr.net/npm/less@4" ></script>
     <script src="https://kit.fontawesome.com/b7eaa74f9d.js" crossorigin="anonymous"></script>
-    <script src="js/fetch.js" defer></script>
 </head>
 
 <body>
@@ -38,7 +37,31 @@
             <div class="right">
                 <div class="blockOne">
                     <h1 class="agenda">Agenda</h1>
-                    <div class="agendaAction">
+                    <?php
+                        $fullAgenda = json_decode(file_get_contents('./data/agenda.json'));
+                        $currentMonth = date('m');
+                        $currentDay = date('d');
+                        $count = 0;
+                        
+                        foreach ($fullAgenda as $current) {
+                            $name = $current->name;
+                            $date = $current->date;
+                            $location = $current->location;
+
+                            $dateArray = explode('-', $date);
+                            if ((($currentDay < $dateArray[0] && $dateArray[1] == $currentMonth) || ($dateArray[1] > $currentMonth)) && $count < 5) {
+                                $count++;
+                                ?>
+                                <div class="agendaAction">
+                                    <p class="title"> <?php echo $name; ?></p>
+                                    <p> <i class="fa-solid fa-calendar-days red"></i> <?php echo $date; ?></p>
+                                    <p> <i class="fa-solid fa-location-dot red"></i> <?php echo $location; ?></p>
+                                </div>
+                                <?php
+                            }
+                        }
+                    ?>
+                    <!-- <div class="agendaAction">
                         <p class="title">20M: Koning der Koningen</p>
                         <p> <i class="fa-solid fa-calendar-days red"></i> 18-6-2022</p>
                         <p> <i class="fa-solid fa-location-dot red"></i> De Kruisridders, Oudemolen</p>
@@ -57,7 +80,7 @@
                         <p class="title">20M: 3e masters NKB</p>
                         <p> <i class="fa-solid fa-calendar-days red"></i> 29-6-2022</p>
                         <p> <i class="fa-solid fa-location-dot red"></i> Komst des Vredes, Achtmaal</p>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="blockTwo">

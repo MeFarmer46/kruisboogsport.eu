@@ -1,6 +1,4 @@
-const urlN = 'http://kruisboogsport.eu:8080/'; //Url for normal API server
-const urlA = 'http://kruisboogsport.eu:8081/'; //Url for auth server
-const url = 'http://kruisboogsport.eu';
+const url = 'https://kruisboogsport.eu/api/';
 
 // fetch(urlN + 'test/')
 //   .then(res => {
@@ -9,22 +7,36 @@ const url = 'http://kruisboogsport.eu';
 //     return res.json()
 //   })
 
-fetch(urlN + 'createUser', {
+// fetch(url + 'createUser', {
+//   method: 'POST',
+//   mode: 'cors',
+//   headers: {
+//     'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify({
+//     name: "reqTestName",
+//     email: "testEmail",
+//     password: "TestPW"
+//   })
+// }).then(res => {
+//   return res.json();
+// })
+// .then(data => console.log(data))
+// .catch(error => console.log(error))
+
+let request = {};
+request.name = "testName";
+request.password = "myPassword";
+request.email = "myEmail";
+
+fetch(url + 'createUser', {
   method: 'POST',
-  mode: 'cors',
   headers: {
-    'Content-Type': 'application/json',
-    "Access-Control-Allow-Headers" : "Content-Type",
-    "Access-Control-Allow-Origin": url,
-    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    // Accept: 'application.json',
+    'Content-Type': 'application/json'
   },
-  body: JSON.stringify({
-    name: "reqTestName",
-    email: "testEmail",
-    password: "TestPW"
-  })
-}).then(res => {
-  return res.json();
+  body: JSON.stringify({name: "testName", password: "myPassword", email: "myEmail"}),
+  cache: 'default'
 })
-.then(data => console.log(data))
-.catch(error => console.log(error))
+  .then(response => response.json())
+  .then(data => console.log(data));

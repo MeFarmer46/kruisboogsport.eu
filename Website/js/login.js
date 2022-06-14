@@ -1,11 +1,10 @@
 const loginForm = document.getElementById('loginForm');
-// const registerForm = document.getElementById('registerForm');
+const passwordINP = document.getElementById('password');
+const usernameINP = document.getElementById('username');
 
 loginForm.addEventListener("submit", () => {
-    console.log('New login');
-    window.location.href = "https://pornhub.com";
-});
+    const username = usernameINP.value;
+    const password = passwordINP.value;
 
-// registerForm.addEventListener("submit", () => {
-//     console.log("New registry.");
-// });
+    
+});
