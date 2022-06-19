@@ -1,4 +1,4 @@
-@bgColor: #ddd;
+@bgColor: #ccc;
 
 @color1: #5E0B15;
 @color2: #E15F6E;
@@ -100,4 +100,14 @@
             box-shadow: 1px 1px 1px;
         }
     }
+}
+
+.today {
+    animation: colorSwitch 5s 5 linear;
+}
+
+@keyframes colorSwitch {
+    0% {color:@color2;}
+    50% {color:@color1;}
+    100% {color:@color2;}
 }

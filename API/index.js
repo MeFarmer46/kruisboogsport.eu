@@ -1,12 +1,7 @@
 require('dotenv').config();
-const fs = require('fs');
-const https = require('https');
-
-//Setting variables
-const expireTime = '6h';
-
-// Json web token
 const jwt = require('jsonwebtoken');
+const express = require('express');
+const expireTime = '6h';
 
 // Initialising the SQL connection
 const { createConnection } = require('mysql');
@@ -18,10 +13,27 @@ const connection = createConnection({
     database: 'kruisboogsportMain',
     port: 3306
 });
-
 connection.connect();
 
 // Random functions
+function encrypt(input) {
+    const { createCipheriv } = require('crypto');
+    const key = Buffer.from(process.env.PASSWORD_TOKEN_SECRET);
+    const iv = Buffer.from(process.env.IV_SECRET);
+
+    const cipher = createCipheriv('aes256', key, iv);
+    
+    return cipher.update(input, 'utf8', 'hex') + cipher.final('hex');
+}
+
+function decrypt(input) {
+    const { createDecipheriv } = require('crypto');
+    const key = Buffer.from(process.env.PASSWORD_TOKEN_SECRET);
+    const iv = Buffer.from(process.env.IV_SECRET);
+    const decipher = createDecipheriv('aes256', key, iv);
+    return decipher.update(input, 'hex', 'utf-8') + decipher.final('utf8');
+}
+
 function fullDate() {
     let date_ob = new Date();
     let date = ("0" + date_ob.getDate()).slice(-2);
@@ -102,13 +114,14 @@ function authenticateToken(req, res, next) {
     });
 }
 
+function generateAccessToken(user) {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expireTime })
+}
+
 // Initialising the express api server
-const express = require('express');
-const req = require('express/lib/request');
 const app = express();
 const PORT = 8080;
 
-const cors = require('cors');
 app.use(express.json());
 
 app.listen(
@@ -126,7 +139,7 @@ app.get('/api/test/', (req, res) => {
     });
 });
 
-app.post('/api/createUser/', cors(), (req, res) => {
+app.post('/api/createUser/', (req, res) => {
     const {name, email, password} = req.body;
     
     if (!name) {
@@ -145,7 +158,7 @@ app.post('/api/createUser/', cors(), (req, res) => {
     connection.query({
         sql: 'INSERT INTO `user` (`name`, `email`, `password`, `mailVerf`, `dateCreated`) VALUES (?, ?, ?, 0, ?);',
         timeout: 10000,
-        values: [name, email, password, fullDate()]
+        values: [name, email, encrypt(password), fullDate()]
     });
 
     connection.query({
@@ -467,7 +480,7 @@ app.post('/api/login', (req, res) => {
         if (error) throw error;
         // logActivity('Gebruiker heeft geprobeerd in te loggen.', 'u');
         
-        if (results[0] ==  undefined || password != results[0].password) {
+        if (results[0] ==  undefined || password != decrypt(results[0].password)) {
             res.status(418).send({
                 success: false,
                 message: "Wachtwoord of email klopt niet."
@@ -499,7 +512,3 @@ app.post('/api/login', (req, res) => {
 
     logActivity('User created refresh token. (Logged in.)');
 });
-
-function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expireTime })
-}

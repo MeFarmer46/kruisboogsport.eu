@@ -11,6 +11,7 @@
     <link rel="stylesheet/less" type="text/css" href="styles/main.less" />
     <link rel="stylesheet/less" type="text/css" href="styles/forms.less" />
     <script src="https://cdn.jsdelivr.net/npm/less@4" ></script>
+    <script src="./js/main.js" defer></script>
 </head>
 
 <body>
@@ -22,24 +23,24 @@
             <form method="post">
 
               <div class="txt_field">
-                <input type="text" required>
+                <input type="text" id="username" required>
                 <span></span>
                 <label>Gebruikersnaam</label>
               </div>
 
               <div class="txt_field">
-                <input type="text" required>
+                <input type="text" id="email" required>
                 <span></span>
                 <label>Email</label>
               </div>
 
               <div class="txt_field">
-                <input type="password" required>
+                <input type="password" id="password" required>
                 <span></span>
                 <label>Wachtwoord</label>
               </div>
 
-              <input type="submit" value="Login">
+              <input type="submit" value="Registreren">
               <div class="signup_link">
                 Al wel een account? <a href="./login.php">Inloggen</a>
               </div>
@@ -47,4 +48,5 @@
           </div>
     </div>
 </body>
+<script src="./js/register.js"></script>
 </html>

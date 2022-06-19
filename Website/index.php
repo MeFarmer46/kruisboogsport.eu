@@ -12,6 +12,8 @@
     <link rel="stylesheet/less" type="text/css" href="styles/home.less" />
     <script src="https://cdn.jsdelivr.net/npm/less@4" ></script>
     <script src="https://kit.fontawesome.com/b7eaa74f9d.js" crossorigin="anonymous"></script>
+    <script src="./js/getToken.js" type="module" ></script>
+    <script src="./js/main.js" defer></script>
 </head>
 
 <body>
@@ -55,6 +57,16 @@
                                 <div class="agendaAction">
                                     <p class="title"> <?php echo $name; ?></p>
                                     <p> <i class="fa-solid fa-calendar-days red"></i> <?php echo $date; ?></p>
+                                    <p> <i class="fa-solid fa-location-dot red"></i> <?php echo $location; ?></p>
+                                </div>
+                                <?php
+                            }
+                            if ($currentDay == $dateArray[0] && $currentMonth == $dateArray[1]) {
+                                $count++;
+                                ?>
+                                <div class="agendaAction">
+                                    <p class="title"> <?php echo $name; ?></p>
+                                    <p> <i class="fa-solid fa-calendar-days red today"></i> <?php echo $date; ?></p>
                                     <p> <i class="fa-solid fa-location-dot red"></i> <?php echo $location; ?></p>
                                 </div>
                                 <?php

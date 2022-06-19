@@ -1,4 +1,4 @@
-@bgColor: #ddd;
+@bgColor: #ccc;
 
 @color1: #5E0B15;
 @color2: #E15F6E;
@@ -30,27 +30,12 @@ body {
     justify-content: space-between;
     position: fixed;
     top: 0;
-    background-color: @color1;
+    background-color: @bgColor;
+    border-bottom: 3px solid @color1;
     width: 100%;
     height: 50px;
-    .navlinks {
-        font-size: 1.5rem;
-        font-weight: bold;
-        display: block;
-        // margin-left: auto;
-        // margin-right: 1%;
-        margin-top: auto;
-        margin-bottom: auto;
-        a {
-            text-decoration: none;
-            height: 100%;
-            color: @textColorLight;
-            &:hover {
-                color: @color2;
-            }
-        }
-    }
     .login {
+        transition: 0.2s;
         font-size: 1.5rem;
         font-weight: bold;
         display: block;
@@ -60,9 +45,9 @@ body {
         a {
             text-decoration: none;
             height: 100%;
-            color: @textColorLight;
+            color: @dark1;
             &:hover {
-                color: @color2;
+                color: @color1;
             }
         }
     }
@@ -73,7 +58,31 @@ body {
         height: 45px;
         -webkit-transform: rotate(45deg);
         transform: rotate(45deg);
-        animation: rotate 1s linear;
+        animation: rotate 0.3s linear;
+    }
+}
+
+.navlinks {
+    position: fixed;
+    top: 0;
+    height: 50px;
+    left: 50%;
+    transform: translate(-50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.5rem;
+    font-weight: bold;
+    a {
+        text-decoration: none;
+        height: 100%;
+        color: @dark1;
+        &:hover {
+            color: @color1;
+            cursor: pointer;
+        }
     }
 }
 

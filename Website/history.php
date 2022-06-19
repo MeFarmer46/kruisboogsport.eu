@@ -11,7 +11,7 @@
     <link rel="stylesheet/less" type="text/css" href="styles/main.less" />
     <link rel="stylesheet/less" type="text/css" href="styles/content.less" />
     <script src="https://cdn.jsdelivr.net/npm/less@4" ></script>
-    <script src="js/fetch.js" defer></script>
+    <script src="./js/main.js" defer></script>
 </head>
 
 <body>

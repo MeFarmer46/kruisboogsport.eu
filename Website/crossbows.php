@@ -12,6 +12,7 @@
     <link rel="stylesheet/less" type="text/css" href="styles/content.less" />
     <script src="https://cdn.jsdelivr.net/npm/less@4" ></script>
     <script src="https://kit.fontawesome.com/b7eaa74f9d.js" crossorigin="anonymous"></script>
+    <script src="./js/main.js" defer></script>
 </head>
 
 <body>
